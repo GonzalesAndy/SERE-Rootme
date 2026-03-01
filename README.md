@@ -21,9 +21,9 @@ https://gist.github.com/rvrsh3ll/09a8b933291f9f98e8ec
 <a onmouseover="alert(document.cookie)">xxs link</a>
 ...
 ```
-Non loin l'envie de tous les tester un à un la liste et grande et pour les quelques que nous testons à la main, le résultat est le même "Hacker Detected !".
+Non loin l'envie de tous les tester un à un la liste est grande et pour les quelques-uns que nous testons à la main, le résultat est le même "Hacker Detected !".
 
-Il nous faut un moyen de s'avoir s'il s'agit de balise particulière qui est bloqué, d'attribut, ou peut être même d'expression régulières particulières. C'est alors qu'on apprend l'existence de "Fuzzer" ou "Fuzz Testing". Et d'outils tel que ZAP qui permette parmi tant d'autres type d'attaquer de brute-force les paramètres d'une requête GET.
+Il nous faut un moyen de savoir s'il s'agit de balise particulière qui est bloquée, d'attribut, ou peut être même d'expression régulière particulière. C'est alors qu'on apprend l'existence de "Fuzzer" ou "Fuzz Testing". Et d'outils tels que ZAP qui permette parmi tant d'autres type d'attaquer de brute-force les paramètres d'une requête GET.
 
 C'est alors qu'on tombe sur un forum PortSwigger, qui en plus de fourni une grande liste de payload pour "Filter Bypass", il fournit aussi une liste rapide à copier coller de chaque tag utile pour contourner des filtres.
 https://portswigger.net/web-security/cross-site-scripting/cheat-sheet
@@ -36,24 +36,24 @@ Test des payloads sur ZAP :
 ![Pasted image 20260301234807.png](assets/Pasted%20image%2020260301234807.png)
 
 ![Pasted image 20260301234846.png](assets/Pasted%20image%2020260301234846.png)
-Après avoir lancé l'exécution en brute force sur les payload fourni par PortSwigger, nous obtenons un résultat peu probant. Aucun des payload n'est passé, on remarque cela notamment grâce à la colonne Taille du corps de la réponse qui vaut 16 octets pour tous sauf pour notre message originel qui avec comme corps "A". 16 octets équivalent bien évidemment au message "Hacker Detected!" de taille 16 :).
+Après avoir lancé l'exécution en brute force sur les payload fourni par PortSwigger, nous obtenons un résultat peu probant. Aucun des payload n'est passé, on remarque cela notamment grâce à la colonne Taille du corps de la réponse qui vaut 16 octets pour tous sauf pour notre message originel qui avec comme corps "A". 16 octets équivalents bien évidemment au message "Hacker Detected!" de taille 16 :).
 
-Bon passons maintenant au test des balises. Après une rapide modification des tags fournis par PortSwigger (rajoute des < > avant et après chaque tag); On obtient un résultat plus intéréssant :
+Bon passons maintenant au test des balises. Après une rapide modification des tags fournis par PortSwigger (rajoute des  avant et après chaque tag); On obtient un résultat plus intéressant :
 A part quelques balises très utilisés pour contourner des filtres : 
 ![Pasted image 20260301235756.png](assets/Pasted%20image%2020260301235756.png)
-On obtient ceci-dit aussi une grande liste de balise qui ne se font pas détecter : 
+On obtient ceci-dit aussi une grande liste de balise qui ne se fait pas détecter : 
 ![Pasted image 20260301235903.png](assets/Pasted%20image%2020260301235903.png)
-Dont quelques un en particulier qui attire plus l'attention, la balise button et la balise a par example, qui sont des balises où il est possible d'intéragir avec.
+Dont quelques un en particulier qui attire plus l'attention, la balise button et la balise a par exemple, qui sont des balises où il est possible d'interagir avec.
 
-Bon le problème est que maintenant contrairement à une image qui se charge au chargement de la page et donc réalise forcément l'action au démarrage de la page. Rien ne saute à l'oeil pour obtenir le même fonctionnement avec un bouton ou une balise d'ancre, qui tout deux nécessite d'être actionné pour effectuer quoi que ce soit.
+Bon le problème est que maintenant contrairement à une image qui se charge au chargement de la page et donc réalise forcément l'action au démarrage de la page. Rien ne saute à l'œil pour obtenir le même fonctionnement avec un bouton ou une balise d'ancre, qui tout deux nécessite d'être actionné pour effectuer quoi que ce soit.
 
-Testons tous les attributes fourni par la liste PortSwigger sur la balise button, après le formatage suivant : 
+Testons tous les attributs fourni par la liste PortSwigger sur la balise button, après le formatage suivant : 
 ```
 <button 'attribute'>
 ```
 On obtient de ZAP le résultat suivant : 
 Aucun des attributs ne se fait flag par les filtres.
-On essaye à nouveau avec un autre formatage 
+On essaye à nouveau avec un autre formatage. 
 ```
 <button 'attribute'=x>
 ```
@@ -112,9 +112,9 @@ Devient alors :
 ```HTML
 <button autofocus onfocus=(eval)()></button>
 ```
-Si on ajoute notre JSFuck comme paramètre d'eval, tout fonctionne lors de l'envoie de notre message dans le forum on se fait rediriger vers notre webhook, il ne reste plus qu'à attendre le passage de l'administrateur :
+Si on ajoute notre JSFuck comme paramètre d'eval, tout fonctionne lors de l'envoi de notre message dans le forum, on se fait rediriger vers notre webhook, il ne reste plus qu'à attendre le passage de l'administrateur :
 
 ![Pasted image 20260302002705.png](assets/Pasted%20image%2020260302002705.png)
 Voilà notre mot de passe reçu directement sur le tableau de bord de notre webhook : 
 `qa26f3ugb5tqv7o0mbvtv414u8`
-(Le premier étant un cookie que l'on possédait déjà en temps qu'utilisateur lambda)
+(Le premier étant un cookie que l'on possédait déjà en tant qu'utilisateur lambda)
