@@ -12,7 +12,7 @@ Comme pour l'ancien exercice que nous avons eu à faire sur les injections XSS, 
 ```
 
 Sans grande conviction, la tentative fût un échec, et nous nous sommes vu nous faire redirigé vers une page.
-![Pasted image 20260301233953.png](assets/Pasted image 20260301233953.png)
+![Pasted image 20260301233953.png](assets/Pasted%20image%2020260301233953.png)
 On comprend tout de suite, le sens derrière le titre de l'exercice après s'être renseigner sur internet et les diverses sources de cours fournis par root-me.org, on apprend l'existence de divers filtres et de manière de les contourner :
 https://swisskyrepo.github.io/PayloadsAllTheThings/XSS%20Injection/1%20-%20XSS%20Filter%20Bypass/
 https://gist.github.com/rvrsh3ll/09a8b933291f9f98e8ec
@@ -29,20 +29,20 @@ C'est alors qu'on tombe sur un forum PortSwigger, qui en plus de fourni une gran
 https://portswigger.net/web-security/cross-site-scripting/cheat-sheet
 Test des payloads sur ZAP : 
 
-![Pasted image 20260301234608.png](assets/Pasted image 20260301234608.png)
-![Pasted image 20260301234636.png](assets/Pasted image 20260301234636.png)
-![Pasted image 20260301234703.png](assets/Pasted image 20260301234703.png)
-![Pasted image 20260301234755.png](assets/Pasted image 20260301234755.png)
-![Pasted image 20260301234807.png](assets/Pasted image 20260301234807.png)
+![Pasted image 20260301234608.png](assets/Pasted%20image%2020260301234608.png)
+![Pasted image 20260301234636.png](assets/Pasted%20image%2020260301234636.png)
+![Pasted image 20260301234703.png](assets/Pasted%20image%2020260301234703.png)
+![Pasted image 20260301234755.png](assets/Pasted%20image%2020260301234755.png)
+![Pasted image 20260301234807.png](assets/Pasted%20image%2020260301234807.png)
 
-![Pasted image 20260301234846.png](assets/Pasted image 20260301234846.png)
+![Pasted image 20260301234846.png](assets/Pasted%20image%2020260301234846.png)
 Après avoir lancé l'exécution en brute force sur les payload fourni par PortSwigger, nous obtenons un résultat peu probant. Aucun des payload n'est passé, on remarque cela notamment grâce à la colonne Taille du corps de la réponse qui vaut 16 octets pour tous sauf pour notre message originel qui avec comme corps "A". 16 octets équivalent bien évidemment au message "Hacker Detected!" de taille 16 :).
 
 Bon passons maintenant au test des balises. Après une rapide modification des tags fournis par PortSwigger (rajoute des < > avant et après chaque tag); On obtient un résultat plus intéréssant :
 A part quelques balises très utilisés pour contourner des filtres : 
-![Pasted image 20260301235756.png](assets/Pasted image 20260301235756.png)
+![Pasted image 20260301235756.png](assets/Pasted%20image%2020260301235756.png)
 On obtient ceci-dit aussi une grande liste de balise qui ne se font pas détecter : 
-![Pasted image 20260301235903.png](assets/Pasted image 20260301235903.png)
+![Pasted image 20260301235903.png](assets/Pasted%20image%2020260301235903.png)
 Dont quelques un en particulier qui attire plus l'attention, la balise button et la balise a par example, qui sont des balises où il est possible d'intéragir avec.
 
 Bon le problème est que maintenant contrairement à une image qui se charge au chargement de la page et donc réalise forcément l'action au démarrage de la page. Rien ne saute à l'oeil pour obtenir le même fonctionnement avec un bouton ou une balise d'ancre, qui tout deux nécessite d'être actionné pour effectuer quoi que ce soit.
@@ -95,7 +95,7 @@ Si l'on regarde attentivement le fonctionnement de eval : fonction préconisé p
 https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Global_Objects/eval
 
 On voit :
-![Pasted image 20260302002149.png](assets/Pasted image 20260302002149.png)
+![Pasted image 20260302002149.png](assets/Pasted%20image%2020260302002149.png)
 
 C'est-à-dire exactement ce que l'on cherche à faire :
 Allons donc convertir ce que l'on souhaite exécuter en JSFuck
@@ -114,7 +114,7 @@ Devient alors :
 ```
 Si on ajoute notre JSFuck comme paramètre d'eval, tout fonctionne lors de l'envoie de notre message dans le forum on se fait rediriger vers notre webhook, il ne reste plus qu'à attendre le passage de l'administrateur :
 
-![Pasted image 20260302002705.png](assets/Pasted image 20260302002705.png)
+![Pasted image 20260302002705.png](assets/Pasted%20image%2020260302002705.png)
 Voilà notre mot de passe reçu directement sur le tableau de bord de notre webhook : 
 `qa26f3ugb5tqv7o0mbvtv414u8`
 (Le premier étant un cookie que l'on possédait déjà en temps qu'utilisateur lambda)
